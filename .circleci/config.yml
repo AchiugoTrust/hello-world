@@ -9,9 +9,9 @@ version: 2.1
 
 
 jobs:
-   save_hello_world_output:  
+  save_hello_world_output:  
     docker:
-    - image: cimg/base:2020.01
+      - image: cimg/base:2020.01
     steps:
       - run: echo "hello world" > output.txt
       - persist-to-workspace:
@@ -28,7 +28,7 @@ jobs:
       - run: cat ~/output.txt
 
 workflows:
-  my-workflow:
+  my_workflow:
     jobs:
       - save_hello_world_output
       - print_output_file:
