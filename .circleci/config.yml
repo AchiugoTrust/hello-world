@@ -6,20 +6,34 @@ version: 2.1
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 
 
-workflows:
-  test-env-var:
-    jobs:
-      - build
+
 
 jobs:
-  build:
+   save_hello_world_output:  
     docker:
     - image: cimg/base:2020.01
     steps:
-      - checkout
-      - run:
-          name: "echo my env var that is part of this project"
-          command: 
-            echo $My_Env_Var 
+      - run: echo "hello world" > output.txt
+      - persist-to-workspace:
+          root: ~/
+          path:
+            - output.txt
+
+  print_output_file:
+    docker:
+      - image: cimg/base:2020.01 
+    steps:   
+      - attach_workspace:
+          at: ~/
+      - run: cat ~/output.txt
+
+workflows:
+  my-workflow:
+    jobs:
+      - save_hello_world_output
+      - print_output_file:
+        requires:
+          - save_hello_world_output
+
 
 ## Let's try something
