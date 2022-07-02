@@ -1,34 +1,20 @@
 version: 2.1
-commands:
-  print_pipeline_id:
-    description: "Prints out Circle CI Workflow ID from its environment variable"
-    parameters:
-      id:
-        type: string
-    steps:
-     - run: echo << parameters.id >>
-
-
-
-
-
 jobs:
-  new_job:
+  my_new_job:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - print_pipeline_id
-    
+      - run: return 1
       - run:
-          name: "watch me fail"
-          command: echo Hello world
+          name: watch me fail
+          command: echo "Hello world"
           when: on_fail
 
 
 workflows:
   my_workflow:
     jobs:
-      - new_job
+      - my_new_job
 
 
 ## Let's try something
